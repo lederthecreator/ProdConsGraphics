@@ -27,11 +27,7 @@ namespace ProdConsGraphics
                 _bufferedGraphics.Graphics.Clear(Color.White);
             }
         }
-        public bool IsBusy { get; set; }
-        
         public Color AreaColor { get; set; } = Color.Chartreuse;
-
-    //    private List<EndPoint> _endPoints = new();
         public Animator(Graphics graphics)
         {
             Gr = graphics;
@@ -41,23 +37,19 @@ namespace ProdConsGraphics
         public void AddBall(Ball ball)
         {
             _balls.Add(ball);
-            //if(!ContainsInEndPoints(ball)) _endPoints.Add(
-              //  new EndPoint {Position = ball.Position, AreaColor = Color.Black});
-            ball.Animate();
         }
 
         public void StartBoom(Ball[] balls)
         {
-            //IsBusy = true;
             var r = balls[GetIndex(ProdType.RedColor)].Color.R;
             var g = balls[GetIndex(ProdType.GreenColor)].Color.G;
             var b = balls[GetIndex(ProdType.BlueColor)].Color.B;
             var resultColor = Color.FromArgb(r, g, b);
-            var resBoom = new BoomBall(balls[0].EndPoint, 500);
-            resBoom.Color = resultColor;
+            var resBoom = new BoomBall(balls[0].EndPoint, 500)
+            {
+                Color = resultColor
+            };
             _balls.RemoveAll(ball => ball.EndPoint == balls[0].EndPoint);
-            //var endPoint = FindInEndPoints(balls[0]);
-            //_endPoints.Remove(endPoint);
             _booms.Add(resBoom);
             resBoom.Run();
         }
@@ -92,16 +84,6 @@ namespace ProdConsGraphics
                     {
                         _booms.Clear();
                     }
-                    // if (_balls.Count(ball => ball.IsMoving) == 0)
-                    // {
-                    //     tmpGraphics.Clear(Color.White);
-                    //     if (!_boom.IsThreadAlive ?? false) 
-                    //     {
-                    //         _color = Color.Black;
-                    //         _balls.Clear();
-                    //         //IsBusy = false;
-                    //     }
-                    // }
                     try
                     {
                         _bufferedGraphics.Render(Gr);
@@ -113,40 +95,12 @@ namespace ProdConsGraphics
 
                     Thread.Sleep(24);
                 } while (true);
-            });
-            _thread.IsBackground = true;
+            })
+            {
+                IsBackground = true
+            };
             _thread.Start();
         }
-
-        public void BallReachedEndPoint(object? sender, EventArgs eventArgs)
-        {
-            AreaColor = ((Ball) sender!).Color;
-        }
-        private int GetIndex(ProdType prodType) => ((int)prodType / 10 - 1);
-
-        /*private EndPoint FindInEndPoints(Ball ball)
-        {
-            foreach (var endPoint in _endPoints)
-            {
-                if (endPoint.Position == ball.EndPoint) return endPoint;
-            }
-
-            return null;
-        }
-        private bool ContainsInEndPoints(Ball ball)
-        {
-            foreach (var endPoint in _endPoints)
-            {
-                if (endPoint.Position == ball.EndPoint)
-                    return true;
-            }
-
-            return false;
-        }
-        private record EndPoint
-        {
-            public PointF Position { get; set; }
-            public Color AreaColor { get; set; }
-        };*/
+        private static int GetIndex(ProdType prodType) => ((int)prodType / 10 - 1);
     }
 }

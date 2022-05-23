@@ -36,7 +36,7 @@ namespace ProdConsGraphics
             set => _position = value;
         }
         public static Size ContainerSize { get; set; }
-        public bool IsMoving { get; private set; }
+        public bool IsMoving { get; set; }
         public ProdType BallType { get; set; }
         
         public PointF EndPoint
@@ -89,22 +89,6 @@ namespace ProdConsGraphics
             var br = new SolidBrush(Color);
             var rectF = new RectangleF(Position.X, Position.Y, Radius * 2, Radius * 2);
             graphics.FillEllipse(br, rectF);
-        }
-
-        public void Animate()
-        {
-            if (!t?.IsAlive ?? true)
-            {
-                t = new(() =>
-                {
-                    do
-                    {
-                        Thread.Sleep(24);
-                    } while (Move());
-                });
-                t.IsBackground = true;
-                t.Start();
-            }
         }
 
     }

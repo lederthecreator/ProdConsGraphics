@@ -33,13 +33,13 @@
                 {
                     var endPoint = Physics.GetEndPoint(ProdType);
                     var ball = new Ball(ProdType, endPoint);
-                    //ball.BallEndPointReached += _animator.BallReachedEndPoint;
                     _animator.AddBall(ball);
-                    while (ball.IsMoving) Thread.Sleep(24);
+                    do
+                    {
+                        Thread.Sleep(24);
+                    } while (ball.Move());
                     _animator.AreaColor = ball.Color;
                     _data.PutData(ProdType, ball);
-                    
-                    //Thread.Sleep(200);
                 }
             });
             

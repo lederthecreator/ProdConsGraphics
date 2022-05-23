@@ -71,14 +71,17 @@ namespace ProdConsGraphics
 
         public static void FillEndPoints()
         {
-            for (int i = 0; i < 100; i += 1)
+            lock (_locker)
             {
-                var endPoint = new PointF(
-                    _rnd.Next(50, ContainerSize.Width - 100),
-                    _rnd.Next(50, ContainerSize.Height - 100));
-                foreach (var stack in _endPoints)
+                for (int i = 0; i < 100; i += 1)
                 {
-                    stack.Push(endPoint);
+                    var endPoint = new PointF(
+                        _rnd.Next(50, ContainerSize.Width - 100),
+                        _rnd.Next(50, ContainerSize.Height - 100));
+                    foreach (var stack in _endPoints)
+                    {
+                        stack.Push(endPoint);
+                    }
                 }
             }
         }

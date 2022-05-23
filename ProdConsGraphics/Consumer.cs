@@ -27,7 +27,6 @@ namespace ProdConsGraphics
                 while (1 == 1)
                 {
                     var balls = _data.GetData();
-                    //while(_animator.IsBusy) Thread.Sleep(24);
                     _animator.StartBoom(balls);
                 }
             });
